@@ -28,47 +28,33 @@ class Ironhacker extends React.Component {
 class Ironhackers extends React.Component {
   
   state = {
-    hackers: users,
     search: "",
     teacher: false,
-    student: false
+    student: false,
+    campus: "",
+    role: ""
+
   }
 
-  // getResults() {
-  //   let searchArray = [...users];
-  //   let resultArray = searchArray.filter( hacker => )
-  // }
-
   handleChange = event => {
-    let searchArray = [...users];
-    console.log(event.target.name);
-
     if (event.target.type === "select-one") {
-      let resultArray = searchArray.filter( hacker => hacker.campus == event.target.value )
-      
+      console.log(event.target.value);
       this.setState({
-        hackers: resultArray
-      })
+        [event.target.name]: event.target.value
+      }, () => console.log(this.state.campus))
     }
-
     else if (event.target.type === "text") {
-      //uppercase first letter
+      console.log(event.target.value);
       let searchTerm = '';
       searchTerm = capitalizeFirstLetter(event.target.value);
-      
-      let resultArray = searchArray.filter( hacker => hacker.firstName.includes(searchTerm) || hacker.lastName.includes(searchTerm))
-      
       this.setState({
-        hackers: resultArray,
-        [event.target.name]: event.target.value
-      })
+        [event.target.name]: searchTerm
+      }, () => console.log(this.state.search))
     }
-
     else if (event.target.type === "checkbox") {
-      //make a matrix
+      let role = "";
       let student = true;
-      let teacher = true;
-      let resultArray = searchArray;
+      let teacher = true; 
       if ((this.state.student == false && event.target.name != "student") || 
           this.state.student == true && event.target.name == "student") {
         student = false;
@@ -77,39 +63,56 @@ class Ironhackers extends React.Component {
           this.state.teacher == true && event.target.name == "teacher") {
         teacher = false;
       }
-      //use the matrix for the four cases
+
       if (student && (student != teacher)) {
-        resultArray = searchArray.filter( hacker => hacker.role === "student");
+        role = "student";
       }
       if (teacher && (student != teacher)) {
-        resultArray = searchArray.filter( hacker => hacker.role === "teacher");
+        role = "teacher";
       }
       if ((!student) && (!teacher)) {
-        resultArray = searchArray;
+        role = "";
       }
       if  (student && teacher) {
-        resultArray = [];
+        role = "both";
       }
       //setState accordingly
       this.setState({
-        [event.target.name]: event.target.checked,
-        hackers: resultArray
-      })
+        role: role,
+        teacher: teacher,
+        student: student
+      }, () => console.log(this.state.role))
     }
   }
 
   render() {
-    let hackerArray = this.state.hackers.map((user, index) => {
+    console.log(this.state);
+    
+    let resultArray = users.slice("");
+
+    if (this.state.search != "") {
+      resultArray = resultArray.filter( (user) => (user.firstName.includes(this.state.search) || user.lastName.includes(this.state.search)))
+    }
+
+    if (this.state.role != "") {
+      resultArray = resultArray.filter( (user) => (user.role === this.state.role))
+    }
+
+    if (this.state.campus != "") {
+      resultArray = resultArray.filter( (user) => (user.campus === this.state.campus))
+    } 
+
+    let hackerArray = resultArray.map((user, index) => {
       return <Ironhacker 
-        firstName={user.firstName}
-        lastName={user.lastName}
-        campus={user.campus}
-        role={user.role}
-        links={user.linkedin}
-        key={index}
+      firstName={user.firstName}
+      lastName={user.lastName}
+      campus={user.campus}
+      role={user.role}
+      links={user.linkedin}
+      key={index}
       />
     })
-
+    
     let campusArray = users.map(user => {
       return user.campus
     });
@@ -117,12 +120,12 @@ class Ironhackers extends React.Component {
     console.log(campusArray);
     campusArray = campusArray.map((campus, index) => {
       return <CountryOption
-        campus={campus}
-        key={index}
-        handleChange={this.handleChange}
-        />
+      campus={campus}
+      key={index}
+      handleChange={this.handleChange}
+      />
     })
-
+    
     return(
       <div className="centered">
         <div>
@@ -131,7 +134,7 @@ class Ironhackers extends React.Component {
           <input id="teacher" type="checkbox" name="teacher" checked={this.state.teacher} onChange={this.handleChange}/>
           <label htmlFor="teacher">Student: </label>
           <input id="student" type="checkbox" name="student" checked={this.state.student} onChange={this.handleChange}/>
-          <select onChange={this.handleChange} defaultValue="DEFAULT" name="" id="">
+          <select onChange={this.handleChange} defaultValue="DEFAULT" name="campus" id="">
             <option value="DEFAULT" disabled>Select Campus</option>
             {campusArray}
           </select>
