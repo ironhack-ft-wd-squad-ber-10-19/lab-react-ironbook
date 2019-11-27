@@ -6,14 +6,13 @@ import {capitalizeFirstLetter} from "./helpers";
 class CountryOption extends React.Component {
   render() {
     return(
-      <option value={this.props.campus}>{this.props.campus}</option>
+      <option value={this.props.campus} name={this.props.campus}>{this.props.campus}</option>
     )
   }
 }
 
 class Ironhacker extends React.Component {
   render() {
-
     return(
       <tr>
         <td>{this.props.firstName}</td>
@@ -35,12 +34,21 @@ class Ironhackers extends React.Component {
     student: false
   }
 
+  // getResults() {
+  //   let searchArray = [...users];
+  //   let resultArray = searchArray.filter( hacker => )
+  // }
+
   handleChange = event => {
     let searchArray = [...users];
-    console.log(event.target.type);
+    console.log(event.target.name);
 
     if (event.target.type === "select-one") {
-      console.log(event.target.value);
+      let resultArray = searchArray.filter( hacker => hacker.campus == event.target.value )
+      
+      this.setState({
+        hackers: resultArray
+      })
     }
 
     else if (event.target.type === "text") {
@@ -52,7 +60,7 @@ class Ironhackers extends React.Component {
       
       this.setState({
         hackers: resultArray,
-        [event.target.name]: event.target.value,
+        [event.target.name]: event.target.value
       })
     }
 
@@ -102,7 +110,7 @@ class Ironhackers extends React.Component {
       />
     })
 
-    let campusArray = this.state.hackers.map(user => {
+    let campusArray = users.map(user => {
       return user.campus
     });
     campusArray = Array.from(new Set(campusArray));
@@ -123,7 +131,7 @@ class Ironhackers extends React.Component {
           <input id="teacher" type="checkbox" name="teacher" checked={this.state.teacher} onChange={this.handleChange}/>
           <label htmlFor="teacher">Student: </label>
           <input id="student" type="checkbox" name="student" checked={this.state.student} onChange={this.handleChange}/>
-          <select onClick={this.handleChange} defaultValue="DEFAULT" name="" id="">
+          <select onChange={this.handleChange} defaultValue="DEFAULT" name="" id="">
             <option value="DEFAULT" disabled>Select Campus</option>
             {campusArray}
           </select>
