@@ -1,0 +1,46 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form{
+  margin:2em 2em;
+  width: 90%;
+}
+
+#search-bar{
+  width: 100%;
+  border: 1px solid darkgray;
+  border-radius: 3px;
+  margin:0.8em 0;
+  padding: 0.5em;
+}
+
+#options-container{
+  display: flex;
+  justify-content: left;
+}
+
+#options-container label{
+  margin-right:1em;
+}
+
+.campus-select{
+  margin: 0;
+}
+
+table{
+  /* width: 40em; */
+  text-align: left;
+  margin-bottom: 5em;
+} 
+
+td{
+  width: 8em;
+}
+thead{
+  font-weight: bold;
+}
+
