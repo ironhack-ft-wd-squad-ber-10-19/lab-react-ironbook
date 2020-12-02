@@ -10,6 +10,7 @@ export default class App extends Component {
     search: '',
     student: '',
     teacher: '',
+    campus: '',
   }
 
   handleSubmit = event => {
@@ -53,6 +54,21 @@ export default class App extends Component {
       }))
     }
 
+    handleCampus = event => {
+      const filteredUsers = users.filter(person=>{
+        if(event.target.checked)
+        return person.campus === 'campus'
+        else
+        return person
+      });
+      this.setState((state,props) => ({
+        usersList: filteredUsers,
+        campus: event.target.checked
+      }))
+    }
+
+
+
   
 
 
@@ -91,6 +107,13 @@ export default class App extends Component {
       checked={this.state.teacher}
       onChange={this.handleTeacher}
       />
+
+      <label htmlFor="campus">Campus:</label>
+      <select name="campus" id="campus" onChange={this.handleCampus}>
+      <option value={this.state.campus}>Paris</option>
+      <option value={this.state.campus}>Berlin</option>
+      <option value={this.state.campus}>Lisbon</option>
+      </select>
 
 
       <table>
