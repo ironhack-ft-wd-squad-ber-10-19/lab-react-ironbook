@@ -45,3 +45,11 @@
 .logo {
   width: 20px;
 }
+
+.searchBar {
+  /* width: 100%; */
+  /* display: flex;
+  justify-content: stretch; */
+  /* background: rgb(199, 195, 195); */
+  margin: 2vh;
+}
