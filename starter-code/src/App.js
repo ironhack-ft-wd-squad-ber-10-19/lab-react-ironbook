@@ -14,12 +14,32 @@ import users from "./users";
 class App extends Component {
 
   state = {
-    userList: users
+    userList: users,
+    search: ''
   }
 
-  // hasLinkedIn () => {
-  //   if (state.userList.user)
-  // }
+  handleChange = event => {
+    // event.preventDefault();
+    console.log('rodger rodger')
+
+    this.setState({
+        search: event.target.value
+      }, () => this.handleSearch())
+    }
+    
+  handleSearch = () => {
+    const {search} = this.state;
+
+    const newSearch = users.filter(user => {
+      if (user.lastName.toLowerCase().includes(search.toLowerCase()) || user.firstName.toLowerCase().includes(search.toLowerCase()) ) 
+      {
+        return user.lastName.toLowerCase().includes(search.toLowerCase()) || user.firstName.toLowerCase().includes(search.toLowerCase());
+      }
+    })
+    this.setState({
+      userList: newSearch
+    })
+  }
 
   render() {
     const userList = 
@@ -60,6 +80,16 @@ class App extends Component {
       <div className="App">
         <h1>IronBook</h1>
 
+        <div>
+        <label htmlFor="search">
+          {/* Search by First or Last name */}
+        
+        <input type ="text" name ="search" id= "search" placeholder=" Search by First or Last name.." 
+          value={this.state.search} onChange={this.handleChange} 
+        />
+        </label>
+        </div>
+
         <table >
           <thead>
             <tr>
@@ -83,3 +113,14 @@ class App extends Component {
 }
 
 export default App;
+
+
+    //   if (this.state.teacher){
+    //     return user.role === "teacher" && (user.lastName.toLowerCase().includes(search) || user.firstName.toLowerCase().includes(search));
+    //   } else if (this.state.student){
+    //     return user.role === "student" && (user.lastName.toLowerCase().includes(search) || user.firstName.toLowerCase().includes(search));
+    //   } else {
+    //     return user.lastName.toLowerCase().includes(search) || user.firstName.toLowerCase().includes(search);
+    //   }
+    // })
+    
