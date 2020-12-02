@@ -7,7 +7,9 @@ export default class App extends Component {
 
   state = {
     usersList: users,
-    search: ''
+    search: '',
+    student: '',
+    teacher: '',
   }
 
   handleSubmit = event => {
@@ -24,6 +26,36 @@ export default class App extends Component {
         search: event.target.value
       }))
     }
+
+    handleStudent = event => {
+      const filteredUsers = users.filter(person=>{
+        if(event.target.checked)
+        return person.role ==='student'
+        else
+        return person
+      });
+      this.setState((state,props) => ({
+        usersList: filteredUsers,
+        student: event.target.checked
+      }))
+    }
+
+    handleTeacher = event => {
+      const filteredUsers = users.filter(person=>{
+        if(event.target.checked)
+        return person.role ==='teacher'
+        else
+        return person
+      });
+      this.setState((state,props) => ({
+        usersList: filteredUsers,
+        teacher: event.target.checked
+      }))
+    }
+
+  
+
+
   
 
   render() {
@@ -41,6 +73,25 @@ export default class App extends Component {
       onChange={this.handleSearch}        
       />
       </form>
+
+      <label htmlFor="student">Student</label>
+      <input
+      type="checkbox"
+      name="student"
+      id="student"
+      checked={this.state.student}
+      onChange={this.handleStudent}
+      />
+
+      <label htmlFor="teacher">Teacher</label>
+      <input
+      type="checkbox"
+      name="teacher"
+      id="teacher"
+      checked={this.state.teacher}
+      onChange={this.handleTeacher}
+      />
+
 
       <table>
       <thead>
