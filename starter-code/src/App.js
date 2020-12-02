@@ -2,9 +2,6 @@ import './App.css';
 import users from './users.json'
 import React, { Component } from 'react'
 
-console.log(users[0].firstName)
-
-
 
 export default class App extends Component {
 
@@ -23,20 +20,11 @@ export default class App extends Component {
         );
       // console.log(event.target.value)
       this.setState((state,props) => ({
-        search: event.target.value,
-        usersList: filteredUsers
+        usersList: filteredUsers,
+        search: event.target.value
       }))
     }
   
-
-  // handleSearch = event => {
-  //   console.log(this.state.search);
-  //   this.setState({
-  //     // usersList: users[0],
-  //     search: event.target.value
-  //   })
-  // }
-
 
   render() {
     return (
