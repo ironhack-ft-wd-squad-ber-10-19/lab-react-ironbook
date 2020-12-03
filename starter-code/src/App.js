@@ -19,7 +19,9 @@ export default class App extends Component {
 
   handleSearch = event => {
       const filteredUsers = users.filter( person =>
-        person.firstName.toLowerCase().includes(event.target.value.toLowerCase()) || person.lastName.toLowerCase().includes(event.target.value.toLowerCase())
+        person.firstName.toLowerCase().includes(event.target.value.toLowerCase()) 
+        || 
+        person.lastName.toLowerCase().includes(event.target.value.toLowerCase())
         );
       // console.log(event.target.value)
       this.setState((state,props) => ({
@@ -44,7 +46,7 @@ export default class App extends Component {
     handleTeacher = event => {
       const filteredUsers = users.filter(person=>{
         if(event.target.checked)
-        return person.role ==='teacher'
+        return person.role === 'teacher'
         else
         return person
       });
@@ -56,14 +58,20 @@ export default class App extends Component {
 
     handleCampus = event => {
       const filteredUsers = users.filter(person=>{
-        if(event.target.checked)
-        return person.campus === 'campus'
+        if(event.target.value === 'Berlin')
+        return person.campus === 'Berlin'
+        if(event.target.value === 'Paris')
+        return person.campus === 'Paris'
+        if(event.target.value === 'Lisbon')
+        return person.campus === 'Lisbon'
+
         else
         return person
       });
+      console.log(event.target.value)
       this.setState((state,props) => ({
         usersList: filteredUsers,
-        campus: event.target.checked
+        campus: event.target.value
       }))
     }
 
@@ -109,10 +117,11 @@ export default class App extends Component {
       />
 
       <label htmlFor="campus">Campus:</label>
-      <select name="campus" id="campus" onChange={this.handleCampus}>
-      <option value={this.state.campus}>Paris</option>
-      <option value={this.state.campus}>Berlin</option>
-      <option value={this.state.campus}>Lisbon</option>
+      <select value={this.state.campus} onChange={this.handleCampus}>
+      <option value='All'>All</option>
+      <option value='Paris'>Paris</option>
+      <option value='Berlin'>Berlin</option>
+      <option value='Lisbon'>Lisbon</option>
       </select>
 
 
