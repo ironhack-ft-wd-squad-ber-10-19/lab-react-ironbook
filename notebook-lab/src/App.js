@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 
 export default class App extends Component {
   state = {
-    // users: users,
+    users: users,
     search: '',
     student: false,
     teacher: false,
@@ -23,16 +23,19 @@ export default class App extends Component {
     console.log(value);
   };
 
+  
+
   render() {
-    let searchResults = users.filter(
+    let searchResults = this.state.users.filter(
       (user) =>
         user.firstName.includes(this.state.search) ||
-        user.lastName.includes(this.state.search)
-    );
+        user.lastName.includes(this.state.search) ||
+        user.campus === this.state.campus
+    )
     // console.log(users);
 
     if (this.state.student) {
-      searchResults = users.filter((user) => user.role === 'student').filter(
+      searchResults = this.state.users.filter((user) => user.role === 'student').filter(
         (user) =>
           user.firstName.includes(this.state.search) ||
           user.lastName.includes(this.state.search)
@@ -40,16 +43,16 @@ export default class App extends Component {
     }
 
     if (this.state.teacher) {
-      searchResults = users.filter((user) => user.role === 'teacher').filter(
+      searchResults = this.state.users.filter((user) => user.role === 'teacher').filter(
         (user) =>
           user.firstName.includes(this.state.search) ||
           user.lastName.includes(this.state.search)
       );
     }
 
-    if (this.state.campus !== 'all') {
-      searchResults = users.filter((user) => user.campus === this.state.campus)
-    } 
+    // if (this.state.campus !== 'all') {
+    //   searchResults = this.state.users.filter((user) => user.campus === this.state.campus)
+    // } 
 
     const allCampuses = users.map((user) => user.campus)
     const campuses = [...new Set(allCampuses)]
