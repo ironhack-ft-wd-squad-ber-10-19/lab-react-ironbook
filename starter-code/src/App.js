@@ -13,7 +13,6 @@ export default class App extends Component {
   }
 
   handleChange = event => {
-    console.log('CHANGE')
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -23,16 +22,10 @@ export default class App extends Component {
   }
 
   render() {
-    const filtered = users.filter(user => 
-      (user.firstName.includes(this.state.search) || 
-      user.lastName.includes(this.state.search)) &&
-      (this.state.student && user.role === 'student') &&
-      (this.state.teacher && user.role === 'teacher') &&
-      (this.state.campus === 'Berlin' && user.campus === 'Berlin') ||
-      (this.state.campus === 'Paris' && user.campus === 'Paris') ||
-      (this.state.campus === 'Lisbon' && user.campus === 'Lisbon')
-    );
-    console.log('STATE', this.state, 'FILTERED',filtered)
+    const filtered = this.state.users.filter(user => {
+      return `${user.firstName}${user.lastName}`.includes(this.state.search) &&
+      this.state[user.role] && this.state.campus === user.campus || !this.state.campus
+    });
 
     return (
       <div className="App">
@@ -51,7 +44,7 @@ export default class App extends Component {
           id="student" 
           name="student" 
           value={this.state.student}
-          onChange={this.handleChange} />
+          onChange={this.handleChange} defaultChecked/>
         <label htmlFor="student">Student</label>
 {/* TEACHER */}
         <input 
@@ -59,12 +52,12 @@ export default class App extends Component {
           id="teacher" 
           name="teacher" 
           value={this.state.teacher}
-          onChange={this.handleChange} />
+          onChange={this.handleChange} defaultChecked/>
         <label htmlFor="teacher">Teacher</label>
 {/* CAMPUS */}
         <label htmlFor="campus">Campus:</label>
         <select name="campus" id="campus" onChange={this.handleChange}>
-          <option value="All">All</option>
+          <option value="">All</option>
           <option value="Berlin">Berlin</option>
           <option value="Paris">Paris</option>
           <option value="Lisbon">Lisbon</option>
