@@ -13,6 +13,7 @@ export default class App extends Component {
   }
 
   handleChange = event => {
+    // console.log('CHANGE')
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -23,10 +24,10 @@ export default class App extends Component {
 
   render() {
     const filtered = this.state.users.filter(user => {
-      return `${user.firstName}${user.lastName}`.includes(this.state.search) &&
-      this.state[user.role] && this.state.campus === user.campus || !this.state.campus
+      return `${user.firstName}${user.lastName}`.toLowerCase().includes(this.state.search.toLowerCase()) &&
+      this.state[user.role] && this.state.campus === user.campus || !this.state.campus  
     });
-
+     
     return (
       <div className="App">
 
@@ -57,7 +58,7 @@ export default class App extends Component {
 {/* CAMPUS */}
         <label htmlFor="campus">Campus:</label>
         <select name="campus" id="campus" onChange={this.handleChange}>
-          <option value="">All</option>
+          <option value="All">All</option>
           <option value="Berlin">Berlin</option>
           <option value="Paris">Paris</option>
           <option value="Lisbon">Lisbon</option>
