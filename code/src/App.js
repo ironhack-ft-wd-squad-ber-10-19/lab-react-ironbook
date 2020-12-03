@@ -13,16 +13,41 @@ class App extends React.Component {
   }
 
   searchForName = (event) => {
-    // console.log(event.target.value);
+    // onsole.log(event.target.value);
+    // console.log(this.state.isStudent);
     // console.log(this.state.usersList[0].firstName.toLowerCase().includes(event.target.value));
-    this.setState({
-      filteredUsers: 
-        this.state.usersList.filter(user => 
-        user.firstName.toLowerCase().includes(event.target.value) || 
-        user.lastName.toLowerCase().includes(event.target.value)),
-      
-      searchName: event.target.value,
-    })
+
+    if (this.state.isStudent === true) {
+      this.setState({
+        filteredUsers: 
+          this.state.usersList.filter(user => 
+          user.role === "student" &&
+          (user.firstName.toLowerCase().includes(event.target.value) || 
+          user.lastName.toLowerCase().includes(event.target.value))),
+        
+        searchName: event.target.value,
+      })
+    } else if (this.state.isTeacher === true) {
+      this.setState({
+        filteredUsers: 
+          this.state.usersList.filter(user => 
+          user.role === "teacher" &&
+          (user.firstName.toLowerCase().includes(event.target.value) || 
+          user.lastName.toLowerCase().includes(event.target.value))),
+        
+        searchName: event.target.value,
+      })
+    } else {
+      this.setState({
+        filteredUsers: 
+          this.state.usersList.filter(user => 
+          user.firstName.toLowerCase().includes(event.target.value) || 
+          user.lastName.toLowerCase().includes(event.target.value)),
+        
+        searchName: event.target.value,
+      })
+    }
+    
   }
 
 
