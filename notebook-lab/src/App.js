@@ -13,6 +13,10 @@ export default class App extends Component {
     campus: 'all'
   };
 
+  sortData = () => {
+    
+  }
+
   handleChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -23,36 +27,24 @@ export default class App extends Component {
     console.log(value);
   };
 
-  
-
   render() {
     let searchResults = this.state.users.filter(
       (user) =>
-        user.firstName.includes(this.state.search) ||
-        user.lastName.includes(this.state.search) ||
-        user.campus === this.state.campus
+        user.firstName.toLowerCase().includes(this.state.search.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(this.state.search.toLowerCase())
     )
-    // console.log(users);
-
-    if (this.state.student) {
-      searchResults = this.state.users.filter((user) => user.role === 'student').filter(
-        (user) =>
-          user.firstName.includes(this.state.search) ||
-          user.lastName.includes(this.state.search)
-      )
+ 
+    if ((this.state.teacher && this.state.student) || (!this.state.teacher && !this.state.student)) {
+      searchResults = searchResults
+    } else if (this.state.student) {
+      searchResults = searchResults.filter((user) => user.role === 'student')
+    } else if (this.state.teacher) {
+      searchResults = searchResults.filter((user) => user.role === 'teacher')
     }
 
-    if (this.state.teacher) {
-      searchResults = this.state.users.filter((user) => user.role === 'teacher').filter(
-        (user) =>
-          user.firstName.includes(this.state.search) ||
-          user.lastName.includes(this.state.search)
-      );
-    }
-
-    // if (this.state.campus !== 'all') {
-    //   searchResults = this.state.users.filter((user) => user.campus === this.state.campus)
-    // } 
+    if (this.state.campus !== 'all') {
+      searchResults = searchResults.filter((user) => user.campus === this.state.campus)
+    } 
 
     const allCampuses = users.map((user) => user.campus)
     const campuses = [...new Set(allCampuses)]
