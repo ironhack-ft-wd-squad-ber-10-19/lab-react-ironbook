@@ -10,6 +10,7 @@ class App extends React.Component {
     filteredUsers: users,
     isStudent: false,
     isTeacher: false,
+    campus: "allCampuses"
   }
 
   searchForName = (event) => {
@@ -58,7 +59,7 @@ class App extends React.Component {
       return (event.target.checked ? user.role === "student" : user);
     });
 
-    console.log("filtered student", newStudentList)
+    // console.log("filtered student", newStudentList)
 
     this.setState({
       isStudent: event.target.checked,
@@ -73,7 +74,7 @@ class App extends React.Component {
       return (event.target.checked ? user.role === "teacher" : user);
     });
 
-    console.log("filtered teacher", newTeacherList)
+    // console.log("filtered teacher", newTeacherList)
 
     this.setState({
       isTeacher: event.target.checked,
@@ -81,6 +82,21 @@ class App extends React.Component {
     })
   }
 
+  handleCampus = event => {
+    console.log(event.target.value);
+
+    const filteredCampuses = this.state.usersList.filter(user => {
+      if (event.target.value === "allCampuses") {
+        return user
+      } else {
+        return user.campus === event.target.value
+      }
+    });
+
+    this.setState({
+      filteredUsers: filteredCampuses
+    })
+  }
   
   
   
@@ -116,6 +132,15 @@ class App extends React.Component {
             checked={this.state.role}
             onChange={this.handleTeacherCheckbox}
           /><br /><br />
+          <select name="campus"
+          onChange={this.handleCampus}
+          >
+          <option key={"all"} value="allCampuses">All Campuses</option>
+          <option key={"berlin"} value="Berlin">Berlin</option>
+          <option key={"lisbon"} value="Lisbon">Lisbon</option>
+          <option key={"paris"} value="Paris">Paris</option>
+          </select>
+          <br /><br />
         <table>
           <thead>
             <tr>
